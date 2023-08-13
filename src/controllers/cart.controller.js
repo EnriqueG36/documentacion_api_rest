@@ -99,6 +99,8 @@ putUpdateProductQuantity = async (req, res)=>{
         const {pid} = req.params
         const {productQuantity} = req.body
 
+        console.log(productQuantity)
+
         if (productQuantity < 0)  {  res.send({Error: `No se admite la cantidad ${productQuantity}`})
     } else{
 

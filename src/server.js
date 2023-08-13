@@ -13,6 +13,10 @@ const { websocketFuncion } = require('./utils/socketLogic.js')
 const passport = require('passport')
 const { initPassportGithub } = require('./config/passport.config.js')
 
+//swagger
+const swaggerJsDoc = require ('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
+
 //Error handler
 const { errorHandler } = require('./middlewares/error.middleware.js')
 
@@ -59,6 +63,22 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }))
+
+//swagger
+const swaggerOptions = {
+	definition: {
+	openapi: '3.0.1',	//Esto viene directo de la documentación
+	info: {
+	title: 'Documentación, curso programación Backend',							//El titulo de nuestro archivo de documentacion
+	description: 'Para el desafío documentar las api products y carts'			//La descripcion
+	}
+	},
+	apis: [`${__dirname}/docs/**/*.yaml`]		//La ubicacion, los ** significan "cualquier folder" y *.yaml significa "cualquier archivo yaml"
+	}
+
+const specs = swaggerJsDoc(swaggerOptions)
+app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
 
 
 
